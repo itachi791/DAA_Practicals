@@ -1,54 +1,33 @@
-# Program to implement fractional Knapsack problem
+# Program to implement 0-1 knapsack using DP
 
-# issue check the profit the answer is not correct for fractional knapsack
-def knapsack(items, bagCapacity):
+profit = [0, 1, 2, 5, 6]  
+weight = [6, 2, 3, 4, 5]  
+bagCapacity = 8  
+n = len(profit) - 1 
 
-    
-    maxProfit = 0
+table = [[0] * (bagCapacity + 1) for _ in range(n + 1)]
 
-    for key, value in items.items():
-     
-        weight = value[0]
-        profit = value[1]
-        ratio = value[2]
-           
-        print(ratio)
-        if (bagCapacity >= weight):
-            maxProfit += profit
-            bagCapacity -= weight
-
+for i in range(1, n + 1): 
+    for w in range(1, bagCapacity + 1):  
+        if weight[i] <= w:
+          
+            table[i][w] = max(profit[i] + table[i-1][w - weight[i]], table[i-1][w])
         else:
+           
+            table[i][w] = table[i-1][w]
 
-            maxProfit += profit * (bagCapacity / weight)
-        
-    return maxProfit
+print(table[n][bagCapacity])
 
+i = n
+j = bagCapacity
+while (i > 0 and j > 0) :
 
-# append values in dictionary also calculate the profit ratio
-def ratioAndValues(weightList, profitList):
+    if (table[i][j] == table[i-1][j]):
+        print(i , " = 0")
+        i = i - 1
+    else:
+        print(i, "= 1")
+        i = i - 1
+        j = j - weight[i]
 
-    for i in range(len(weightList)):
-
-        weight = weightList[i]
-        profit = profitList[i]
-        ratio = profit / weight
-        items[i] = [weight, profit, ratio]
-
-    return items
-
-# Driver code
-weightList = [20, 10, 15, 10]
-profitList = [30, 10, 50, 80]
-bagCapacity = 40
-items = {}
-
-items = ratioAndValues(weightList, profitList)
-#  item      weight     profit      ratio
-# {0:       [20,        30,         0.6666666666666666]}
-
-# sort the items on the basis of profit ratio
-items = dict(sorted(items.items(), key=lambda item: item[1][2], reverse=True))
-
-print(items)
-profit = knapsack(items, bagCapacity)
-print('profit = ', profit)
+print(table)
