@@ -1,32 +1,27 @@
-# Iterative Fibonacci function with step count
+#Iterative
 def fibo(n):
-    steps = 0  # Initialize step counter
-    myFib = [0, 1]
-    for i in range(2, n):  # Start from the third Fibonacci number
-        steps += 1  # Count each iteration
+    if n <= 1:
+        return n
+    myFib = [0, 1]  # Base cases: Fibonacci(0) = 0, Fibonacci(1) = 1
+    for i in range(2, n + 1):  # Start at 2, go up to n (inclusive)
         num = myFib[i - 1] + myFib[i - 2]
         myFib.append(num)
-    return myFib[:n], steps  # Return Fibonacci sequence and step count
+    print(myFib)
 
-# Recursive Fibonacci function with step count
-def rec_fibo(n, steps=0):
-    steps += 1  # Count each recursive call
+    return myFib[n]
+
+# Example Usage
+n = 10
+print(f"Fibonacci number at position {n}: {fibo(n)}")
+
+#Recurisve
+def rec_fibo(n):
+    # Base case: Fibonacci of 0 or 1
     if n <= 1:
-        return n, steps  # Return the result and steps taken so far
+        return n
     else:
-        fib1, steps1 = rec_fibo(n - 1, steps)
-        fib2, steps2 = rec_fibo(n - 2, steps1)
-        return fib1 + fib2, steps2  # Return sum and total steps
+        return rec_fibo(n - 1) + rec_fibo(n - 2)
 
-# Ask the user for input
-n = int(input('Enter a number to generate Fibonacci sequence up to: '))
-
-# Call the iterative Fibonacci function
-iterative_result, iterative_steps = fibo(n)
-print(f"Iterative Fibonacci sequence up to {n} terms: {iterative_result}")
-print(f"Steps taken (iterative): {iterative_steps}")
-
-# Call the recursive Fibonacci function for the nth Fibonacci number
-recursive_result, recursive_steps = rec_fibo(n - 1)  # nth Fibonacci number (0-indexed)
-print(f"Recursive Fibonacci for the {n-1}th number: {recursive_result}")
-print(f"Steps taken (recursive): {recursive_steps}")
+# Example Usage
+n = 10
+print(f"Fibonacci number at position {n}: {rec_fibo(n)}")
