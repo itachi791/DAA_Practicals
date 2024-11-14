@@ -9,6 +9,9 @@ def fibo(n):
     print(myFib)
 
     return myFib[n]
+# Ask user for input
+# n = int(input("Enter the position in the Fibonacci sequence: "))  # Convert input to an integer
+# print(f"Fibonacci number at position {n}: {fibo(n)}")
 
 # Example Usage
 n = 10
