@@ -1,34 +1,53 @@
-# Define the Item class
-class Item:
-    def __init__(self, value, weight):
-        self.value = value
-        self.weight = weight
-        self.ratio = value / weight  # Value to weight ratio
+def knapsack(items, bagCapacity):
 
-# Function to solve the fractional knapsack problem
-def fractional_knapsack(capacity, items):
-    # Sort items by value-to-weight ratio in descending order
-    items.sort(key=lambda item: item.ratio, reverse=True)
+    maxProfit = 0
 
-    total_value = 0  # Total value of the knapsack
-    for item in items:
-        if capacity == 0:
+    for key, value in items.items():
+     
+        weight = value[0]
+        profit = value[1]
+        ratio = value[2]
+           
+        print(ratio)
+        if (bagCapacity >= weight):
+            maxProfit += profit
+            bagCapacity -= weight
+
+        elif(bagCapacity > 0):
+            maxProfit += profit * bagCapacity / weight
+            bagCapacity = 0
+
+        else: 
             break
+        
+    return maxProfit
 
-        if item.weight <= capacity:
-            # Take the whole item if it fits
-            total_value += item.value
-            capacity -= item.weight
-        else:
-            # Take the fraction of the item that fits
-            total_value += item.value * (capacity / item.weight)
-            capacity = 0  # Knapsack is full
 
-    return total_value
+# append values in dictionary also calculate the profit ratio
+def ratioAndValues(weightList, profitList):
 
-# Example usage
-if __name__ == "__main__":
-    items = [Item(60, 10), Item(100, 20), Item(120, 30)]
-    capacity = 50
-    max_value = fractional_knapsack(capacity, items)
-    print(f"Maximum value in Knapsack = {max_value:.2f}")
+    items = {}
+    for i in range(len(weightList)):
+
+        weight = weightList[i]
+        profit = profitList[i]
+        ratio = profit / weight
+        items[i] = [weight, profit, ratio]
+
+    return items
+
+# Driver code
+weightList = [20, 10, 15, 10]
+profitList = [30, 10, 50, 80]
+bagCapacity = 40
+
+items = ratioAndValues(weightList, profitList)
+#  item      weight     profit      ratio
+# {0:       [20,        30,         0.6666666666666666]}
+
+# sort the items on the basis of profit ratio
+items = dict(sorted(items.items(), key=lambda item: item[1][2], reverse=True))
+
+print(items)
+profit = knapsack(items, bagCapacity)
+print('profit = ', profit)
